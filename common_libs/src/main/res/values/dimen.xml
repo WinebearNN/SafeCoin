@@ -1,15 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="common_height">80dp</dimen>
+    <dimen name="common_component_height_medium">80dp</dimen>
+    <dimen name="common_component_height_large">130dp</dimen>
+
     <dimen name="common_radius">16dp</dimen>
-    <dimen name="common_horizontal_padding_8">8dp</dimen>
-    <dimen name="common_horizontal_padding_12">12dp</dimen>
-    <dimen name="common_vertical_padding_8">8dp</dimen>
-    <dimen name="common_vertical_padding_16">16dp</dimen>
-    <dimen name="common_icon_size">48dp</dimen>
+
+
     <dimen name="common_main_text_size_medium">24sp</dimen>
     <dimen name="common_main_text_size_small">20sp</dimen>
+    <dimen name="common_large_text_size">24sp</dimen>
     <dimen name="common_letter_spacing_small">0.5sp</dimen>
     <dimen name="common_minor_text_size_large">14sp</dimen>
+    <dimen name="common_header_text_size">28sp</dimen>
+
+    <!-- Paddings -->
+    <dimen name="common_horizontal_padding_8">8dp</dimen>
+    <dimen name="common_horizontal_padding_12">12dp</dimen>
+    <dimen name="common_horizontal_padding_16">16dp</dimen>
+    <dimen name="common_horizontal_padding_24">24dp</dimen>
+
+
+    <dimen name="common_vertical_padding_8">8dp</dimen>
+    <dimen name="common_vertical_padding_16">16dp</dimen>
+    <dimen name="common_vertical_padding_24">24dp</dimen>
+    <dimen name="common_vertical_padding_32">32dp</dimen>
+
+    <dimen name="common_icon_size">48dp</dimen>
+    <dimen name="common_icon_size_medium">64dp</dimen>
+
 
 </resources>

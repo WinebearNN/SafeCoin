@@ -7,10 +7,16 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="surface">#d9d9d9</color>
-    <color name="on_surface">#FFFFFF</color>
+    <color name="surface">#F6F6F6</color>
+    <color name="on_surface">#D9D9D9</color>
 
     <color name="text_main">#414141</color>
     <color name="text_minor">#AAAAAA</color>
-    <color name="text_price_outcome">#E34234</color>
+    <color name="text_medium">#273550</color>
+    <color name="text_price_consumption">#E34234</color>
+    <color name="text_current_balance">#15212C</color>
+
+    <color name="primary">#2563EB</color>
+    <color name="accent">#06B6D4</color>
+
 </resources>

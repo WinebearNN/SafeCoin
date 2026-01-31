@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
@@ -23,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.safecoin.common_libs.ui.text.TextLarge
 import com.safecoin.common_libs.ui.text.TextMain
 import com.safecoin.common_libs.ui.text.TextMedium
 import com.safecoin.common_libs.ui.text.TextMinor
@@ -38,13 +40,17 @@ fun ListItemComponent(
       mainText: String,
       minorText: String? = null,
       trimText: String? = null,
+      backgroundColor: Color? = colorResource(
+            id = R_color.on_surface,
+      ),
+      style: ListItemComponentStyle = ListItemComponentStyle.DEFAULT,
 ) {
       Box(
             modifier = modifier
                   .fillMaxWidth()
                   .height(
                         height = dimensionResource(
-                              id = R_dimen.common_height,
+                              id = R_dimen.common_component_height_medium,
                         ),
                   )
                   .clip(
@@ -55,16 +61,17 @@ fun ListItemComponent(
                         )
                   )
                   .background(
-                        color = colorResource(
-                              id = R_color.on_surface,
-                        ),
+                        color = backgroundColor ?: Color.Transparent
                   ),
             contentAlignment = Alignment.CenterStart,
       ) {
 
             Row(
                   modifier = Modifier
-                        .fillMaxSize(),
+                        .fillMaxSize()
+                        .padding(
+                              horizontal = 8.dp
+                        ),
                   verticalAlignment = Alignment.CenterVertically,
             ) {
 
@@ -79,6 +86,9 @@ fun ListItemComponent(
                   if (minorText.isNullOrBlank()) {
 
                         Text(
+                              modifier = Modifier.padding(
+                                    start = 8.dp
+                              ),
                               text = mainText,
                               fontSize = dimensionResource(
                                     id = R_dimen.common_main_text_size_medium,
@@ -105,12 +115,16 @@ fun ListItemComponent(
 
                   if (!trimText.isNullOrBlank()) {
 
-                        TextMedium(
+                        TextLarge(
                               modifier = Modifier.weight(
                                     weight = 1f,
                               ),
                               text = trimText,
-                              colorId = R_color.text_price_outcome,
+                              colorId = when (style) {
+                                    ListItemComponentStyle.DEFAULT -> R_color.text_current_balance
+                                    ListItemComponentStyle.INCOME -> R_color.teal_700
+                                    ListItemComponentStyle.CONSUMPTION -> R_color.text_price_consumption
+                              }
                         )
 
                   }
@@ -133,10 +147,17 @@ fun PreviewListItemComponent() {
             ),
             mainText = "Apple Inc.",
             minorText = "21 sep, 15:32",
-            trimText = "-$673",
+            trimText = "+$673",
             modifier = Modifier
                   .padding(
                         vertical = 100.dp,
-                  )
+                  ),
+            style = ListItemComponentStyle.INCOME
       )
+}
+
+enum class ListItemComponentStyle {
+      INCOME,
+      CONSUMPTION,
+      DEFAULT,
 }

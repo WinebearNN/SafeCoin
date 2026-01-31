@@ -10,7 +10,7 @@ android {
 
       defaultConfig {
             applicationId = "com.safecoin.safecoin"
-            minSdk = 30
+            minSdk = 28
             targetSdk = 36
             versionCode = 1
             versionName = "1.0"
@@ -56,4 +56,6 @@ dependencies {
       androidTestImplementation(libs.androidx.ui.test.junit4)
       debugImplementation(libs.androidx.ui.tooling)
       debugImplementation(libs.androidx.ui.test.manifest)
+
+      implementation(project(":main_screen:"))
 }

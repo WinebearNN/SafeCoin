@@ -1,5 +1,5 @@
 plugins {
-      alias(libs.plugins.android.application)
+      alias(libs.plugins.android.library)
       alias(libs.plugins.kotlin.android)
       alias(libs.plugins.kotlin.compose)
 }
@@ -9,13 +9,10 @@ android {
       compileSdk = 36
 
       defaultConfig {
-            applicationId = "com.safecoin.common_libs"
-            minSdk = 30
-            targetSdk = 36
-            versionCode = 1
-            versionName = "1.0"
+            minSdk = 28
 
             testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+            consumerProguardFiles("consumer-rules.pro")
       }
 
       buildTypes {
@@ -34,9 +31,6 @@ android {
       kotlinOptions {
             jvmTarget = "11"
       }
-      buildFeatures {
-            compose = true
-      }
 }
 
 dependencies {
@@ -49,6 +43,7 @@ dependencies {
       implementation(libs.androidx.ui.graphics)
       implementation(libs.androidx.ui.tooling.preview)
       implementation(libs.androidx.material3)
+
       testImplementation(libs.junit)
       androidTestImplementation(libs.androidx.junit)
       androidTestImplementation(libs.androidx.espresso.core)

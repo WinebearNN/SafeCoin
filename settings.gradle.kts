@@ -1,9 +1,3 @@
-import org.gradle.kotlin.dsl.mavenCentral
-import org.gradle.kotlin.dsl.repositories
-
-include(":common_libs")
-
-
 pluginManagement {
       repositories {
             google()
@@ -21,3 +15,8 @@ dependencyResolutionManagement {
 
 rootProject.name = "SafeCoin"
 include(":app")
+include(":main_screen")
+include(":common_libs")
+//include(":features")
+include(":features:exchanges")
+include(":features:transactions")

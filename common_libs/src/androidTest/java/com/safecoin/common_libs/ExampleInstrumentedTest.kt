@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
       fun useAppContext() {
             // Context of the app under test.
             val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-            assertEquals("com.safecoin.common_libs", appContext.packageName)
+            assertEquals("com.safecoin.common_libs2.test", appContext.packageName)
       }
 }
