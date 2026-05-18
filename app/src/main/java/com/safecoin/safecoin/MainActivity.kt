@@ -3,41 +3,30 @@ package com.safecoin.safecoin
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.tooling.preview.Preview
-import com.safecoin.main_screen.ui.MainScreen
-import com.safecoin.safecoin.ui.theme.SafeCoinTheme
+import com.safecoin.safecoin.presentation.SafeCoinApp
 
 class MainActivity : ComponentActivity() {
       override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
-            enableEdgeToEdge()
+            val container = (application as SafeCoinApplication).container
             setContent {
-                  SafeCoinTheme {
-                        MainScreen()
+                  Scaffold(modifier = Modifier.fillMaxSize()) {
+                        Box(
+                              modifier = Modifier
+                                  .padding()
+                                  .fillMaxSize()
+                                  .navigationBarsPadding(),
+                        ) {
+                              SafeCoinApp(container = container)
+                        }
                   }
             }
       }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-      val j = colorResource(R.color.black)
-
-      Text(
-            text = "Hello $name!",
-            modifier = modifier
-      )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-      SafeCoinTheme {
-            Greeting("Android")
-      }
-}
