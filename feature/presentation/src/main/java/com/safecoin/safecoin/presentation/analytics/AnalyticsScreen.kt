@@ -48,7 +48,7 @@ fun AnalyticsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackbarHostState = remember { SnackbarHostState()}
     val formatter = NumberFormat.getCurrencyInstance(Locale.US)
 
     LaunchedEffect(uiState.messageRes, uiState.messageArg) {
