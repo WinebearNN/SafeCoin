@@ -3,7 +3,7 @@
 
 # --- Authentication (use API key OR IAM token) ---
 # API key: https://yandex.cloud/en/docs/iam/concepts/authorization/api-key
-yandex.api.key=AQVNzTd-FePPoLC5Gut32QEGh9uW_eqe_n2h8KQi
+yandex.api.key=
 
 # IAM token (Bearer). Leave empty if using API key.
 yandex.iam.token=
