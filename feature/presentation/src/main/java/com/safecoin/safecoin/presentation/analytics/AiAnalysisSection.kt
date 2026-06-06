@@ -29,6 +29,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.safecoin.safecoin.design.components.MarkdownText
 import com.safecoin.safecoin.presentation.R
+import com.safecoin.safecoin.presentation.util.localizedTitle
 import com.safecoin.safecoin.domain.model.AiServiceStatus
 import com.safecoin.safecoin.domain.model.AnalysisSkill
 
@@ -104,7 +105,7 @@ fun AiAnalysisSection(
                     FilterChip(
                         selected = skill == selectedSkill,
                         onClick = { onSkillSelected(skill) },
-                        label = { Text(skill.title) },
+                        label = { Text(skill.localizedTitle()) },
                         enabled = !isAnalyzing,
                     )
                 }

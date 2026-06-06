@@ -41,6 +41,7 @@ class AppContainer(context: Context) : SafeCoinDependencies {
 
     override val settingsRepository: SettingsRepository = SettingsRepositoryImpl(
         dataStore = context.dataStore,
+        appContext = context.applicationContext,
     )
 
     override val reportExporter: ReportExporter = CsvReportExporter(context)

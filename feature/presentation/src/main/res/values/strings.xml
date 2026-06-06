@@ -65,4 +65,26 @@
     <string name="leave_empty_to_keep">Leave empty to keep current value</string>
     <string name="api_key_not_set">Not set</string>
     <string name="edit_ai_settings">Edit AI overrides</string>
+    <string name="profile_saved">Profile saved</string>
+    <string name="invalid_amount">Enter a valid amount</string>
+    <string name="deposited_successfully">Deposited successfully</string>
+    <string name="withdrawn_successfully">Withdrawn successfully</string>
+    <string name="transaction_failed">Transaction failed</string>
+    <string name="failed_load_analytics">Failed to load analytics</string>
+    <string name="report_from_provider">Report from %1$s</string>
+    <string name="configure_yandex_gpt">Configure Yandex GPT in ai_config.properties</string>
+    <string name="offline_summary_shown">Offline summary shown</string>
+    <string name="ai_analysis_failed">AI analysis failed</string>
+    <string name="report_exported">Report exported</string>
+    <string name="export_failed">Export failed</string>
+    <string name="theme_system">System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="language_english">English</string>
+    <string name="language_russian">Russian</string>
+    <string name="skill_transaction_report">Full transaction report</string>
+    <string name="skill_category_breakdown">Category breakdown</string>
+    <string name="skill_monthly_trends">Monthly trends</string>
+    <string name="default_deposit">Deposit</string>
+    <string name="default_withdrawal">Withdrawal</string>
 </resources>

@@ -1,8 +1,8 @@
 package com.safecoin.safecoin.domain.model
 
-enum class AppLanguage(val code: String, val displayName: String) {
-    ENGLISH("en", "English"),
-    RUSSIAN("ru", "Русский"),
+enum class AppLanguage(val code: String) {
+    ENGLISH("en"),
+    RUSSIAN("ru"),
 }
 
 enum class ThemeMode {

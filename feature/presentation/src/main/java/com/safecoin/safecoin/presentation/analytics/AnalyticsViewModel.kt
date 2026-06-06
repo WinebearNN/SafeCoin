@@ -1,6 +1,7 @@
 package com.safecoin.safecoin.presentation.analytics
 
 import android.net.Uri
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -10,6 +11,7 @@ import com.safecoin.safecoin.domain.model.AnalyticsSummary
 import com.safecoin.safecoin.domain.repository.AiAnalysisRepository
 import com.safecoin.safecoin.domain.repository.FinanceRepository
 import com.safecoin.safecoin.domain.repository.ReportExporter
+import com.safecoin.safecoin.presentation.R
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,7 +23,8 @@ data class AnalyticsUiState(
     val isLoading: Boolean = true,
     val isExporting: Boolean = false,
     val exportedUri: Uri? = null,
-    val message: String? = null,
+    @StringRes val messageRes: Int? = null,
+    val messageArg: String? = null,
     val aiServiceStatus: AiServiceStatus = AiServiceStatus.NOT_CONFIGURED,
     val selectedSkill: AnalysisSkill = AnalysisSkill.TRANSACTION_REPORT,
     val aiReport: String = "",
@@ -56,7 +59,7 @@ class AnalyticsViewModel(
                 _uiState.update { it.copy(summary = summary, isLoading = false) }
             } catch (e: Exception) {
                 _uiState.update {
-                    it.copy(isLoading = false, message = e.message ?: "Failed to load analytics")
+                    it.copy(isLoading = false, messageRes = R.string.failed_load_analytics)
                 }
             }
         }
@@ -86,17 +89,18 @@ class AnalyticsViewModel(
                         aiReport = result.report,
                         isAnalyzing = false,
                         usedCloudAi = result.usedCloudAi,
-                        message = when {
-                            result.usedCloudAi -> "Report from ${result.provider.displayName}"
+                        messageRes = when {
+                            result.usedCloudAi -> R.string.report_from_provider
                             it.aiServiceStatus == AiServiceStatus.NOT_CONFIGURED ->
-                                "Configure Yandex GPT in ai_config.properties"
-                            else -> "Offline summary shown"
+                                R.string.configure_yandex_gpt
+                            else -> R.string.offline_summary_shown
                         },
+                        messageArg = if (result.usedCloudAi) result.provider.displayName else null,
                     )
                 }
             } catch (e: Exception) {
                 _uiState.update {
-                    it.copy(isAnalyzing = false, message = e.message ?: "AI analysis failed")
+                    it.copy(isAnalyzing = false, messageRes = R.string.ai_analysis_failed)
                 }
             }
         }
@@ -105,15 +109,15 @@ class AnalyticsViewModel(
     fun exportReport() {
         val summary = _uiState.value.summary ?: return
         viewModelScope.launch {
-            _uiState.update { it.copy(isExporting = true, message = null) }
+            _uiState.update { it.copy(isExporting = true, messageRes = null, messageArg = null) }
             try {
                 val uri = reportExporter.exportToExcel(summary)
                 _uiState.update {
-                    it.copy(isExporting = false, exportedUri = uri, message = "Report exported")
+                    it.copy(isExporting = false, exportedUri = uri, messageRes = R.string.report_exported)
                 }
             } catch (e: Exception) {
                 _uiState.update {
-                    it.copy(isExporting = false, message = e.message ?: "Export failed")
+                    it.copy(isExporting = false, messageRes = R.string.export_failed)
                 }
             }
         }
@@ -124,7 +128,7 @@ class AnalyticsViewModel(
     }
 
     fun clearMessage() {
-        _uiState.update { it.copy(message = null) }
+        _uiState.update { it.copy(messageRes = null, messageArg = null) }
     }
 
     companion object {

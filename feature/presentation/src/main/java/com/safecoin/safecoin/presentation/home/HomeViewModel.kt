@@ -1,9 +1,11 @@
 package com.safecoin.safecoin.presentation.home
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.safecoin.safecoin.domain.model.BankAccount
+import com.safecoin.safecoin.presentation.R
 import com.safecoin.safecoin.domain.model.Transaction
 import com.safecoin.safecoin.domain.model.TransactionType
 import com.safecoin.safecoin.domain.repository.FinanceRepository
@@ -24,7 +26,7 @@ data class HomeUiState(
     val amountInput: String = "",
     val descriptionInput: String = "",
     val isLoading: Boolean = false,
-    val message: String? = null,
+    @StringRes val messageRes: Int? = null,
 )
 
 class HomeViewModel(
@@ -34,14 +36,14 @@ class HomeViewModel(
     private val dialogState = MutableStateFlow(
         DialogState(show = false, type = TransactionType.DEPOSIT, amount = "", description = ""),
     )
-    private val feedback = MutableStateFlow<String?>(null)
+    private val feedback = MutableStateFlow<Int?>(null)
 
     val uiState: StateFlow<HomeUiState> = combine(
         repository.observeAccounts(),
         repository.observeTransactions(limit = 20),
         dialogState,
         feedback,
-    ) { accounts, transactions, dialog, message ->
+    ) { accounts, transactions, dialog, messageRes ->
         HomeUiState(
             accounts = accounts,
             transactions = transactions,
@@ -50,7 +52,7 @@ class HomeViewModel(
             transactionType = dialog.type,
             amountInput = dialog.amount,
             descriptionInput = dialog.description,
-            message = message,
+            messageRes = messageRes,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeUiState())
 
@@ -91,7 +93,7 @@ class HomeViewModel(
         val dialog = dialogState.value
         val amount = dialog.amount.toDoubleOrNull()
         if (amount == null || amount <= 0) {
-            feedback.value = "Enter a valid amount"
+            feedback.value = R.string.invalid_amount
             return
         }
         val accounts = uiState.value.accounts
@@ -100,19 +102,23 @@ class HomeViewModel(
         viewModelScope.launch {
             try {
                 val description = dialog.description.ifBlank {
-                    if (dialog.type == TransactionType.DEPOSIT) "Deposit" else "Withdrawal"
+                    if (dialog.type == TransactionType.DEPOSIT) {
+                        "Deposit"
+                    } else {
+                        "Withdrawal"
+                    }
                 }
                 val category = if (dialog.type == TransactionType.DEPOSIT) "Transfer" else "Other"
                 if (dialog.type == TransactionType.DEPOSIT) {
                     repository.deposit(account.id, amount, description, category)
-                    feedback.value = "Deposited successfully"
+                    feedback.value = R.string.deposited_successfully
                 } else {
                     repository.withdraw(account.id, amount, description, category)
-                    feedback.value = "Withdrawn successfully"
+                    feedback.value = R.string.withdrawn_successfully
                 }
                 dismissDialog()
             } catch (e: Exception) {
-                feedback.value = e.message ?: "Transaction failed"
+                feedback.value = R.string.transaction_failed
             }
         }
     }

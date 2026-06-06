@@ -37,6 +37,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -44,6 +45,7 @@ import com.safecoin.safecoin.design.components.SectionHeader
 import com.safecoin.safecoin.domain.model.AppLanguage
 import com.safecoin.safecoin.domain.model.ThemeMode
 import com.safecoin.safecoin.presentation.R
+import com.safecoin.safecoin.presentation.util.label
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,11 +53,12 @@ fun ProfileScreen(
     viewModel: ProfileViewModel,
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
 
-    LaunchedEffect(uiState.savedMessage) {
-        uiState.savedMessage?.let {
-            snackbarHostState.showSnackbar(it)
+    LaunchedEffect(uiState.savedMessageRes) {
+        uiState.savedMessageRes?.let { resId ->
+            snackbarHostState.showSnackbar(context.getString(resId))
             viewModel.clearMessage()
         }
     }
@@ -187,7 +190,7 @@ private fun ThemeDropdown(
 
     ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = it }) {
         OutlinedTextField(
-            value = selected.name.lowercase().replaceFirstChar { it.uppercase() },
+            value = selected.label(),
             onValueChange = {},
             readOnly = true,
             label = { Text(stringResource(R.string.theme)) },
@@ -199,7 +202,7 @@ private fun ThemeDropdown(
         ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             options.forEach { option ->
                 DropdownMenuItem(
-                    text = { Text(option.name.lowercase().replaceFirstChar { it.uppercase() }) },
+                    text = { Text(option.label()) },
                     onClick = {
                         onSelected(option)
                         expanded = false
@@ -220,7 +223,7 @@ private fun LanguageDropdown(
 
     ExposedDropdownMenuBox(expanded = expanded, onExpandedChange = { expanded = it }) {
         OutlinedTextField(
-            value = selected.displayName,
+            value = selected.label(),
             onValueChange = {},
             readOnly = true,
             label = { Text(stringResource(R.string.language)) },
@@ -232,7 +235,7 @@ private fun LanguageDropdown(
         ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
             AppLanguage.entries.forEach { language ->
                 DropdownMenuItem(
-                    text = { Text(language.displayName) },
+                    text = { Text(language.label()) },
                     onClick = {
                         onSelected(language)
                         expanded = false

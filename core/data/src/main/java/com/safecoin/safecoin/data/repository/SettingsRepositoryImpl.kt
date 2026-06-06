@@ -1,10 +1,12 @@
 package com.safecoin.safecoin.data.repository
 
+import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.safecoin.safecoin.data.local.LocalePreferences
 import com.safecoin.safecoin.domain.model.AppLanguage
 import com.safecoin.safecoin.domain.model.AppSettings
 import com.safecoin.safecoin.domain.model.ThemeMode
@@ -15,6 +17,7 @@ import kotlinx.coroutines.flow.map
 
 class SettingsRepositoryImpl(
     private val dataStore: DataStore<Preferences>,
+    private val appContext: Context,
 ) : SettingsRepository {
 
     override fun observeSettings(): Flow<AppSettings> = dataStore.data.map { prefs ->
@@ -43,6 +46,7 @@ class SettingsRepositoryImpl(
 
     override suspend fun updateLanguage(language: AppLanguage) {
         dataStore.edit { it[KEY_LANGUAGE] = language.code }
+        LocalePreferences.saveLanguageCode(appContext, language.code)
     }
 
     override suspend fun updateNotifications(enabled: Boolean) {

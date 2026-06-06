@@ -1,5 +1,6 @@
 package com.safecoin.safecoin.presentation.profile
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -8,6 +9,7 @@ import com.safecoin.safecoin.domain.model.AppSettings
 import com.safecoin.safecoin.domain.model.ThemeMode
 import com.safecoin.safecoin.domain.model.UserProfile
 import com.safecoin.safecoin.domain.repository.SettingsRepository
+import com.safecoin.safecoin.presentation.R
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -23,7 +25,7 @@ data class ProfileUiState(
     val editEmail: String = "",
     val editPhone: String = "",
     val isEditing: Boolean = false,
-    val savedMessage: String? = null,
+    @StringRes val savedMessageRes: Int? = null,
 )
 
 class ProfileViewModel(
@@ -32,7 +34,7 @@ class ProfileViewModel(
 
     private val editing = MutableStateFlow(false)
     private val draft = MutableStateFlow(Triple("", "", ""))
-    private val message = MutableStateFlow<String?>(null)
+    private val message = MutableStateFlow<Int?>(null)
 
     val uiState: StateFlow<ProfileUiState> = combine(
         repository.observeSettings(),
@@ -48,7 +50,7 @@ class ProfileViewModel(
             editEmail = if (isEditing) draftValues.second else profile.email,
             editPhone = if (isEditing) draftValues.third else profile.phone,
             isEditing = isEditing,
-            savedMessage = savedMsg,
+            savedMessageRes = savedMsg,
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), ProfileUiState())
 
@@ -81,7 +83,7 @@ class ProfileViewModel(
                 UserProfile(draftValues.first, draftValues.second, draftValues.third),
             )
             editing.value = false
-            message.value = "Profile saved"
+            message.value = R.string.profile_saved
         }
     }
 
